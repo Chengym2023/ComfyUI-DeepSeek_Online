@@ -83,7 +83,7 @@ class SiliconCloudReasoning:
             
             content = ""
             reasoning_content=""
-            format_content = ""
+            format_prompt = ""
             negative_prompt = ""
             if stream:
                 for chunk in response:
