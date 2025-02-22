@@ -15,7 +15,7 @@ class DeepSeekOnline:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "model":(model_list,{"default":"none"}),
+                "model":(("deepseek-chat","deepseek-reasoner"), {"default": "deepseek-chat"}),
                 "system":("STRING", {"default": SYSTEM,
                                     "multiline": True}),
                 "prompt": ("STRING", {"default": USER,"multiline": True}),
@@ -27,6 +27,7 @@ class DeepSeekOnline:
             },
             "optional": {
                 "context": ("STRING"),
+                "context_q": ("STRING"),
             }
         }
 
@@ -35,24 +36,24 @@ class DeepSeekOnline:
     FUNCTION = "process"
     CATEGORY = "💯AI"
 
-    def process(self,reasoning_model, model,system, prompt, prefix_continuation,fim,max_tokens, stream, context=""):
-        if reasoning_model == "none" and model == "none":
-            return ("Please select a reasoning model or a model", "unavailable.","unavailable.","unavailable.")
+    def process(self,reasoning_model, model,system, prompt, prefix_continuation,fim,max_tokens, stream, context="", context_q=""):
+
         try:
             client = OpenAI(
                 base_url=self.base_url,
                 api_key=self.api_key
                 )
 
-            messages = [                    
-                    {"role": "user", "content": system+","+prompt}]
+            messages = [      
+                    {"role": "system", "content": system},              
+                    {"role": "user", "content": prompt}]
             if context:
                 messages.append({"role": "assistant", "content": context})
-                messages.append({'role': 'user', 'content': "continue"})
+                messages.append({'role': 'user', 'content': context_q})
             
             if prefix_continuation or fim:
                 response = client.chat.completions.create(
-                    model=reasoning_model if reasoning_model != "none" else model,
+                    model=model,
                     messages=messages,
                     stream=stream, # 是否流式处理
                     max_tokens=max_tokens,# 最大输出长度
@@ -60,7 +61,7 @@ class DeepSeekOnline:
 )
             else:
                 response = client.chat.completions.create(
-                        model=reasoning_model if reasoning_model != "none" else model,
+                        model=model,
                         messages=messages,
                         stream=stream, # 是否流式处理
                         max_tokens=max_tokens,# 最大输出长度

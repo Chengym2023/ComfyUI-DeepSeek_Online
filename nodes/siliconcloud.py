@@ -32,6 +32,7 @@ class SiliconCloudReasoning:
             },
             "optional": {
                 "context": ("STRING"),
+                "context_q": ("STRING"),
             }
         }
 
@@ -40,7 +41,7 @@ class SiliconCloudReasoning:
     FUNCTION = "process"
     CATEGORY = "💯AI"
 
-    def process(self,reasoning_model, model,system, prompt, prefix_continuation,fim,max_tokens, temperature,top_p,frequency_penalty,presence_penalty,stream, context=""):
+    def process(self,reasoning_model, model,system, prompt, prefix_continuation,fim,max_tokens, temperature,top_p,frequency_penalty,presence_penalty,stream, context="", context_q=""):
         if reasoning_model == "none" and model == "none":
             return ("Please select a reasoning model or a model", "unavailable.","unavailable.","unavailable.")
         try:
@@ -53,7 +54,7 @@ class SiliconCloudReasoning:
                     {"role": "user", "content": system+","+prompt}]
             if context:
                 messages.append({"role": "assistant", "content": context})
-                messages.append({'role': 'user', 'content': "continue"})
+                messages.append({'role': 'user', 'content': context_q})
             
             if prefix_continuation or fim:
                 response = client.chat.completions.create(
