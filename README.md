@@ -10,7 +10,7 @@
 1. Clone this repository into your ComfyUI custom nodes directory:
 ```bash
 cd ComfyUI/custom_nodes
-git clone https://github.com/ShmuelRonen/comfyui-deepseek-chat.git
+git clone https://github.com/Chengym2023/ComfyUI-DeepSeek_Online.git
 ```
 
 2. Get your DeepSeek API key:
