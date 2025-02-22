@@ -17,7 +17,7 @@ class SiliconCloudReasoning:
             "required": {
                 "reasoning_model":(reasoning_model_list,{"default":"none"}),
                 "model":(model_list,{"default":"none"}),
-                "system":("STRING", {"default": SYSTEM,
+                "system":("STRING", {"default": SYSTEM+FORMAT_OUTPUT,
                                     "multiline": True}),
                 "prompt": ("STRING", {"default": USER,"multiline": True}),
                 "prefix_continuation": ("STRING", {"default": ""}),

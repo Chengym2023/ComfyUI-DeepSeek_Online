@@ -16,7 +16,7 @@ class DeepSeekOnline:
         return {
             "required": {
                 "model":(("deepseek-chat","deepseek-reasoner"), {"default": "deepseek-chat"}),
-                "system":("STRING", {"default": SYSTEM,
+                "system":("STRING", {"default": SYSTEM+FORMAT_OUTPUT,
                                     "multiline": True}),
                 "prompt": ("STRING", {"default": USER,"multiline": True}),
                 "prefix_continuation": ("STRING", {"default": ""}),
@@ -36,29 +36,38 @@ class DeepSeekOnline:
     FUNCTION = "process"
     CATEGORY = "💯AI"
 
-    def process(self,reasoning_model, model,system, prompt, prefix_continuation,fim,max_tokens, stream, context="", context_q=""):
+    def process(self, model,system, prompt, prefix_continuation,fim,max_tokens, stream, context="", context_q=""):
+        if prefix_continuation or fim:
+            self.base_url="https://api.deepseek.com/beta"
+
 
         try:
             client = OpenAI(
                 base_url=self.base_url,
                 api_key=self.api_key
                 )
-
-            messages = [      
-                    {"role": "system", "content": system},              
-                    {"role": "user", "content": prompt}]
+            if prefix_continuation:    
+                messages = [
+                    {"role": "user", "content": prompt},
+                    {"role": "assistant", "content": prefix_continuation, "prefix": True}
+]           
+            else:
+                messages = [      
+                        {"role": "system", "content": system},              
+                        {"role": "user", "content": prompt}]
             if context:
                 messages.append({"role": "assistant", "content": context})
                 messages.append({'role': 'user', 'content': context_q})
             
-            if prefix_continuation or fim:
-                response = client.chat.completions.create(
+            if fim:
+                response = client.completions.create(
                     model=model,
-                    messages=messages,
-                    stream=stream, # 是否流式处理
-                    max_tokens=max_tokens,# 最大输出长度
-                    extra_body = prefix_continuation if prefix_continuation else fim
-)
+                    prompt=prompt,
+                    suffix=fim,
+                    max_tokens=max_tokens,
+                    stream=stream,
+                )
+
             else:
                 response = client.chat.completions.create(
                         model=model,
