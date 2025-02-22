@@ -1,0 +1,8 @@
+{
+    "SiliconCloud":{
+        "api_key":"put api key here",
+        "url":"https://api.siliconflow.cn/v1"},
+    "DeepSeek_official":{
+        "api_key":"put api key here",
+        "url":"https://api.deepseek.cn/v1"}
+}
