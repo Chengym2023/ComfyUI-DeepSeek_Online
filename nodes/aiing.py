@@ -1,5 +1,7 @@
 import json
 import os
+import re
+
 
 def load_config():
     config_path = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), "config.json")
@@ -13,6 +15,16 @@ def load_config():
 
 (config,config_path) = load_config()
 
+def format_output(content):
+    
+    pattern = r'"answer":\s*"([^"]+)"'
+
+
+    match = re.search(pattern, content)
+    if match:
+        answer = match.group(1)
+        return answer.strip()
+    return content
 def format_content(content):
     start_marker = "**Prompt:**"
     prefix_quote = "\""

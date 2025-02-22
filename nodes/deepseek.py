@@ -15,7 +15,7 @@ class DeepSeekOnline:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "model":(("deepseek-chat","deepseek-reasoner"), {"default": "deepseek-chat"}),
+                "model":(["deepseek-chat","deepseek-reasoner"], {"default": "deepseek-chat"}),
                 "system":("STRING", {"default": SYSTEM+FORMAT_OUTPUT,
                                     "multiline": True}),
                 "prompt": ("STRING", {"default": USER,"multiline": True}),
@@ -94,8 +94,8 @@ class DeepSeekOnline:
                     content = messages.content
                     if messages.reasoning_content:
                         reasoning_content = messages.reasoning_content
-            format_content = format_content(content)
-            negative_prompt = extract_negative_prompt(content)
+            format_content = format_output(content)
+            negative_prompt = format_output(content)
             return (content, reasoning_content,format_content,negative_prompt)
 
 
