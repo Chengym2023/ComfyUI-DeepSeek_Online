@@ -52,6 +52,16 @@ SYSTEM = "You are a professional AI prompt engineer specializing in creating hig
 
 USER = "Give a example prompt!在这输入要求,英文输出,标签形式,非mj格式"
 
+FORMAT_OUTPUT ='''The user will provide some exam text. Please parse the "question" and "answer" and output them in JSON format. 
+
+EXAMPLE INPUT: 
+Which is the highest mountain in the world? Mount Everest.
+
+EXAMPLE JSON OUTPUT:
+{
+    "question": "Which is the highest mountain in the world?",
+    "answer": "Mount Everest"
+}'''
 reasoning_model_list = [
     "none",
     "deepseek-ai/DeepSeek-R1",
