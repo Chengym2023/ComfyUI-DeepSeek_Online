@@ -1,0 +1,15 @@
+[project]
+name = "deepseek_online"
+description = "NODES: SiliconCloudReasoning, DeepSeekOnline"
+version = "1.0.0"
+license = {file = "LICENSE"}
+dependencies = ["openai"]
+
+[project.urls]
+Repository = "https://github.com/Chengym2023/ComfyUI-DeepSeek_Online"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "ComfyUI-DeepSeek_Online"
+Icon = ""
