@@ -98,9 +98,9 @@ class SiliconCloudReasoning:
                     content = messages.content
                     if messages.reasoning_content:
                         reasoning_content = messages.reasoning_content
-            format_content = format_content(content)
+            format_prompt = format_content(content)
             negative_prompt = extract_negative_prompt(content)
-            return (content, reasoning_content,format_content,negative_prompt)
+            return (content, reasoning_content,format_prompt,negative_prompt)
 
 
         except Exception as e:
